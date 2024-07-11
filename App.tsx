@@ -1,118 +1,139 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import MapScreen from './src/screens/MapScreen';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const grid = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+];
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const gridSize = 30; // розмір клітинки
+const gameSpeed = 200; // швидкість оновлення гри (в мілісекундах)
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+export default function App() {
+  const [position, setPosition] = useState({x: 1, y: 5});
+  const [direction, setDirection] = useState<
+    'up' | 'down' | 'left' | 'right' | null
+  >(null);
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  useEffect(() => {
+    // Функція для переміщення Pacman
+    const movePacman = () => {
+      setPosition(prevPosition => {
+        let newPosition = {...prevPosition};
+        if (direction === 'up') newPosition.y -= 1;
+        if (direction === 'down') newPosition.y += 1;
+        if (direction === 'left') newPosition.x -= 1;
+        if (direction === 'right') newPosition.x += 1;
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+        // Перевірка колізій зі стінами (додай свій лабіринт тут)
+        if (checkCollision(newPosition)) {
+          return prevPosition; // якщо є колізія, не оновлюємо позицію
+        }
+
+        return newPosition;
+      });
+    };
+
+    if (direction) {
+      intervalRef.current = setInterval(movePacman, gameSpeed);
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [direction]);
+
+  const checkCollision = (newPosition: {x: number; y: number}) => {
+    console.log(newPosition);
+
+    return grid[newPosition.y][newPosition.x] === 1;
   };
 
+  const handleDirectionChange = (
+    newDirection: 'up' | 'down' | 'left' | 'right',
+  ) => {
+    setDirection(newDirection);
+  };
+
+  return <MapScreen />;
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+    <>
+      <View style={{flexDirection: 'column'}}>
+        {grid.map((row: any, XIndex: number) => (
+          <View key={XIndex} style={{flexDirection: 'row'}}>
+            {row.map((item: any, YIndex: number) => (
+              <View
+                key={YIndex}
+                style={{
+                  width: gridSize,
+                  height: gridSize,
+                  backgroundColor:
+                    position.y === XIndex && position.x === YIndex
+                      ? 'yellow'
+                      : item
+                      ? '#fff'
+                      : '#000',
+                }}>
+                <Text>
+                  {XIndex}
+                  {YIndex}
+                </Text>
+              </View>
+            ))}
+          </View>
+        ))}
+      </View>
+      <Text>
+        {position.x}
+        {position.y}
+      </Text>
+      <View style={styles.container}>
+        <View style={styles.controls}>
+          <TouchableOpacity onPress={() => handleDirectionChange('up')}>
+            <Text>Up</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleDirectionChange('down')}>
+            <Text>Down</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleDirectionChange('left')}>
+            <Text>Left</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleDirectionChange('right')}>
+            <Text>Right</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  pacman: {
+    width: gridSize,
+    height: gridSize,
+    backgroundColor: 'yellow',
+    position: 'absolute',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  controls: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 50,
   },
 });
-
-export default App;
