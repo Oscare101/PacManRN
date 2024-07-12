@@ -1,8 +1,8 @@
 import {StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {memo} from 'react';
 import RowMaker from './RowMaker';
 
-export default function GridMaker(props: {grid: any}) {
+function GridMaker(props: {grid: any}) {
   return (
     <View style={{flexDirection: 'column'}}>
       {props.grid.map((row: any, index: number) => (
@@ -12,4 +12,4 @@ export default function GridMaker(props: {grid: any}) {
   );
 }
 
-const styles = StyleSheet.create({});
+export default memo(GridMaker);
