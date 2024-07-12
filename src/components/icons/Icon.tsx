@@ -71,9 +71,6 @@ export default function Icon(props: {
         height={props.size}
         style={{
           transform: [{rotate: `${directionDegree[props.direction]}deg`}],
-          position: 'absolute',
-          top: 0,
-          left: 0,
         }}
       />
     ),

@@ -1,6 +1,5 @@
 import {Dimensions, StyleSheet, View} from 'react-native';
 import React from 'react';
-import Icon from '../icons/Icon';
 import {
   BottomLeftOuterCorner,
   BottomRightOuterCorner,
