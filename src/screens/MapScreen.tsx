@@ -9,59 +9,21 @@ import React, {useEffect, useRef, useState} from 'react';
 import PacMan from '../mazes/Pac-Man';
 import GridMaker from '../components/mazeMakers/GridMaker';
 
-const width = Dimensions.get('screen').width;
-const gameSpeed = 200; // швидкість оновлення гри (в мілісекундах)
+const width: number = Dimensions.get('screen').width;
+const gameSpeed: number = 100; // швидкість оновлення гри (в мілісекундах)
+const step: number = 1;
 
 export default function MapScreen() {
   const gridSize = width / PacMan[0].length;
 
   const [grid, setGrid] = useState<number[][]>(PacMan);
-  const [position, setPosition] = useState({x: 13.5, y: 23});
+  const [position, setPosition] = useState({x: 13, y: 23});
   const [direction, setDirection] = useState<
     'up' | 'down' | 'left' | 'right' | null
   >(null);
   const [nextDirection, setNextDirection] = useState<
     'up' | 'down' | 'left' | 'right' | null
   >(null);
-
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  // useEffect(() => {
-  //   // Функція для переміщення Pacman
-  //   const movePacman = () => {
-  //     setPosition(prevPosition => {
-  //       if (direction && nextDirection) {
-  //         let newPositionNext = getNextPosition(prevPosition, nextDirection);
-  //         if (!checkCollision(newPositionNext)) {
-  //           setDirection(nextDirection);
-  //           setNextDirection(null);
-  //           return newPositionNext;
-  //         } else {
-  //         }
-  //       }
-
-  //       let newPosition = {...prevPosition};
-  //       newPosition = getNextPosition(newPosition, direction);
-
-  //       if (checkCollision(newPosition)) {
-  //         setDirection(null);
-  //         return prevPosition;
-  //       }
-
-  //       return newPosition;
-  //     });
-  //   };
-
-  //   if (direction) {
-  //     intervalRef.current = setInterval(movePacman, gameSpeed);
-  //   }
-
-  //   return () => {
-  //     if (intervalRef.current) {
-  //       clearInterval(intervalRef.current);
-  //     }
-  //   };
-  // }, [direction, nextDirection]);
 
   const requestRef = useRef<number>(0);
   const previousTimeRef = useRef<number>(0);
@@ -129,15 +91,15 @@ export default function MapScreen() {
     dir: 'up' | 'down' | 'left' | 'right' | null,
   ) => {
     let newPosition = {...position};
-    if (dir === 'up') newPosition.y -= 1;
-    if (dir === 'down') newPosition.y += 1;
-    if (dir === 'left') newPosition.x -= 1;
-    if (dir === 'right') newPosition.x += 1;
+    if (dir === 'up') newPosition.y -= step;
+    if (dir === 'down') newPosition.y += step;
+    if (dir === 'left') newPosition.x -= step;
+    if (dir === 'right') newPosition.x += step;
     return newPosition;
   };
 
   const checkCollision = (newPosition: {x: number; y: number}) => {
-    console.log(newPosition);
+    // console.log(newPosition);
 
     return (
       grid[newPosition.y][newPosition.x] === 7 ||
@@ -172,6 +134,7 @@ export default function MapScreen() {
             position: 'absolute',
             top: gridSize * position.y,
             left: gridSize * position.x,
+            borderRadius: gridSize,
           }}></View>
       </View>
       <Text>{direction}</Text>

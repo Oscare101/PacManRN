@@ -11,11 +11,14 @@ export function BottomDoubleWall(
 ) {
   const currentPossitions: boolean = grid[y][x] === 8;
   const gridRestrictions: boolean =
-    currentPossitions && y < grid.length - 1 && x > 0 && x < grid[0].length - 1;
+    currentPossitions &&
+    y < grid.length - 1 &&
+    x >= 0 &&
+    x <= grid[0].length - 1;
   const tangentCells: boolean =
     gridRestrictions &&
-    grid[y][x + 1] === 8 &&
-    grid[y][x - 1] === 8 &&
+    (x === grid[0].length - 1 ? true : grid[y][x + 1] === 8) &&
+    (x === 0 ? true : grid[y][x - 1] === 8) &&
     (grid[y + 1][x] === 1 || grid[y + 1][x] === 0);
 
   return currentPossitions && gridRestrictions && tangentCells ? (
@@ -36,11 +39,11 @@ export function TopDoubleWall(
 ) {
   const currentPossitions: boolean = grid[y][x] === 8;
   const gridRestrictions: boolean =
-    currentPossitions && y > 0 && x > 0 && x < grid[0].length - 1;
+    currentPossitions && y > 0 && x >= 0 && x <= grid[0].length - 1;
   const tangentCells: boolean =
     gridRestrictions &&
-    grid[y][x + 1] === 8 &&
-    grid[y][x - 1] === 8 &&
+    (x === grid[0].length - 1 ? true : grid[y][x + 1] === 8) &&
+    (x === 0 ? true : grid[y][x - 1] === 8) &&
     (grid[y - 1][x] === 1 || grid[y - 1][x] === 0);
 
   return currentPossitions && gridRestrictions && tangentCells ? (
