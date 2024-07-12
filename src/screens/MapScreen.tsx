@@ -16,7 +16,7 @@ export default function MapScreen() {
   const gridSize = width / PacMan[0].length;
 
   const [grid, setGrid] = useState<number[][]>(PacMan);
-  const [position, setPosition] = useState({x: 1, y: 5});
+  const [position, setPosition] = useState({x: 13.5, y: 23});
   const [direction, setDirection] = useState<
     'up' | 'down' | 'left' | 'right' | null
   >(null);
@@ -65,10 +65,6 @@ export default function MapScreen() {
 
   const requestRef = useRef<number>(0);
   const previousTimeRef = useRef<number>(0);
-  const lastPositionRef = useRef({x: 1, y: 5});
-  const lastDirectionRef = useRef<'up' | 'down' | 'left' | 'right' | null>(
-    null,
-  );
 
   useEffect(() => {
     const movePacman = (time: number) => {
