@@ -15,7 +15,7 @@ const directionDegree = {
   bottomRight: 180,
   bottomLeft: 270,
   bottom: 0,
-  up: 180,
+  top: 180,
   left: 90,
   right: 270,
 };
@@ -28,7 +28,7 @@ export default function Icon(props: {
     | 'topLeft'
     | 'bottomRight'
     | 'bottomLeft'
-    | 'up'
+    | 'top'
     | 'bottom'
     | 'left'
     | 'right';

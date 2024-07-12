@@ -7,63 +7,17 @@ import {
   TopLeftOuterCorner,
   TopRightOuterCorner,
 } from '../../functions/MazeOuterCornerFunctions';
+import {
+  BottomWall,
+  LeftWall,
+  RightWall,
+  TopWall,
+} from '../../functions/MazeWallFunction';
 
 const width = Dimensions.get('screen').width;
 
 export default function CellMaker(props: {grid: any; y: number; x: number}) {
   const gridSize = width / props.grid[0].length;
-
-  // OUTER CORNERS
-
-  // WALLS
-
-  const bottomWall =
-    props.grid[props.y][props.x] === 7 &&
-    props.y < props.grid.length - 1 &&
-    props.x > 0 &&
-    props.x < props.grid[0].length - 1 &&
-    (props.grid[props.y][props.x + 1] === 7 ||
-      props.grid[props.y][props.x + 1] === 8) &&
-    (props.grid[props.y][props.x - 1] === 7 ||
-      props.grid[props.y][props.x - 1] === 8) &&
-    (props.grid[props.y + 1][props.x] === 1 ||
-      props.grid[props.y + 1][props.x] === 0);
-
-  const topWall =
-    props.grid[props.y][props.x] === 7 &&
-    props.y > 0 &&
-    props.x > 0 &&
-    props.x < props.grid[0].length - 1 &&
-    (props.grid[props.y][props.x + 1] === 7 ||
-      props.grid[props.y][props.x + 1] === 8) &&
-    (props.grid[props.y][props.x - 1] === 7 ||
-      props.grid[props.y][props.x - 1] === 8) &&
-    (props.grid[props.y - 1][props.x] === 1 ||
-      props.grid[props.y - 1][props.x] === 0);
-
-  const leftWall =
-    props.grid[props.y][props.x] === 7 &&
-    props.x > 0 &&
-    props.y > 0 &&
-    props.y < props.grid.length - 1 &&
-    (props.grid[props.y + 1][props.x] === 7 ||
-      props.grid[props.y + 1][props.x] === 8) &&
-    (props.grid[props.y - 1][props.x] === 7 ||
-      props.grid[props.y - 1][props.x] === 8) &&
-    (props.grid[props.y][props.x - 1] === 1 ||
-      props.grid[props.y][props.x - 1] === 0);
-
-  const rightWall =
-    props.grid[props.y][props.x] === 7 &&
-    props.x < props.grid[0].length - 1 &&
-    props.y > 0 &&
-    props.y < props.grid.length - 1 &&
-    (props.grid[props.y + 1][props.x] === 7 ||
-      props.grid[props.y + 1][props.x] === 8) &&
-    (props.grid[props.y - 1][props.x] === 7 ||
-      props.grid[props.y - 1][props.x] === 8) &&
-    (props.grid[props.y][props.x + 1] === 1 ||
-      props.grid[props.y][props.x + 1] === 0);
 
   // INNER CORNERS
 
@@ -300,26 +254,10 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
       {TopLeftOuterCorner(props.grid, props.y, props.x, gridSize * 1.1)}
       {BottomRightOuterCorner(props.grid, props.y, props.x, gridSize * 1.1)}
       {BottomLeftOuterCorner(props.grid, props.y, props.x, gridSize * 1.1)}
-      {bottomWall ? (
-        <Icon name="wall" size={gridSize * 1.1} direction="bottom" />
-      ) : (
-        <></>
-      )}
-      {topWall ? (
-        <Icon name="wall" size={gridSize * 1.1} direction="up" />
-      ) : (
-        <></>
-      )}
-      {leftWall ? (
-        <Icon name="wall" size={gridSize * 1.1} direction="left" />
-      ) : (
-        <></>
-      )}
-      {rightWall ? (
-        <Icon name="wall" size={gridSize * 1.1} direction="right" />
-      ) : (
-        <></>
-      )}
+      {BottomWall(props.grid, props.y, props.x, gridSize * 1.1)}
+      {TopWall(props.grid, props.y, props.x, gridSize * 1.1)}
+      {LeftWall(props.grid, props.y, props.x, gridSize * 1.1)}
+      {RightWall(props.grid, props.y, props.x, gridSize * 1.1)}
       {innerCornerTopLeft ? (
         <Icon name="innerCorner" size={gridSize * 1.1} direction="topLeft" />
       ) : (
@@ -350,7 +288,7 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
         <></>
       )}
       {topDoubleWall ? (
-        <Icon name="doubleWall" size={gridSize * 1.1} direction="up" />
+        <Icon name="doubleWall" size={gridSize * 1.1} direction="top" />
       ) : (
         <></>
       )}
