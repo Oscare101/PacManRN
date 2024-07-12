@@ -37,8 +37,13 @@ export default function MapScreen() {
           setPosition(prevPosition => {
             let newPosition = {...prevPosition};
 
-            // Спроба повороту в nextDirection
+            if (newPosition.x < 0) {
+              newPosition.x = grid[0].length;
+            } else if (newPosition.x > grid[0].length - 1) {
+              newPosition.x = 0;
+            }
             if (nextDirection) {
+              // Спроба повороту в nextDirection
               let newNextPosition = getNextPosition(
                 prevPosition,
                 nextDirection,
@@ -77,6 +82,7 @@ export default function MapScreen() {
     if (direction) {
       setPosition(prevPosition => {
         let newPosition = {...prevPosition};
+
         newPosition = getNextPosition(newPosition, direction);
         if (!checkCollision(newPosition)) {
           return newPosition;
