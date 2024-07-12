@@ -19,6 +19,12 @@ import {
   TopLeftInnerCorner,
   TopRightInnerCorner,
 } from '../../functions/MazeInnerCornerFunctions';
+import {
+  BottomDoubleWall,
+  LeftDoubleWall,
+  RightDoubleWall,
+  TopDoubleWall,
+} from '../../functions/MazeDoubleWallFuncrioins';
 
 const width = Dimensions.get('screen').width;
 
@@ -26,46 +32,6 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
   const gridSize = width / props.grid[0].length;
 
   // DOUBLE WALL
-
-  const bottomDoubleWall =
-    props.grid[props.y][props.x] === 8 &&
-    props.y < props.grid.length - 1 &&
-    props.x > 0 &&
-    props.x < props.grid[0].length - 1 &&
-    props.grid[props.y][props.x + 1] === 8 &&
-    props.grid[props.y][props.x - 1] === 8 &&
-    (props.grid[props.y + 1][props.x] === 1 ||
-      props.grid[props.y + 1][props.x] === 0);
-
-  const topDoubleWall =
-    props.grid[props.y][props.x] === 8 &&
-    props.y > 0 &&
-    props.x > 0 &&
-    props.x < props.grid[0].length - 1 &&
-    props.grid[props.y][props.x + 1] === 8 &&
-    props.grid[props.y][props.x - 1] === 8 &&
-    (props.grid[props.y - 1][props.x] === 1 ||
-      props.grid[props.y - 1][props.x] === 0);
-
-  const leftDoubleWall =
-    props.grid[props.y][props.x] === 8 &&
-    props.x > 0 &&
-    props.y > 0 &&
-    props.y < props.grid.length - 1 &&
-    props.grid[props.y + 1][props.x] === 8 &&
-    props.grid[props.y - 1][props.x] === 8 &&
-    (props.grid[props.y][props.x - 1] === 1 ||
-      props.grid[props.y][props.x - 1] === 0);
-
-  const rightDoubleWall =
-    props.grid[props.y][props.x] === 8 &&
-    props.x < props.grid[0].length - 1 &&
-    props.y > 0 &&
-    props.y < props.grid.length - 1 &&
-    props.grid[props.y + 1][props.x] === 8 &&
-    props.grid[props.y - 1][props.x] === 8 &&
-    (props.grid[props.y][props.x + 1] === 1 ||
-      props.grid[props.y][props.x + 1] === 0);
 
   // DOUBLE INNER CORNER
 
@@ -230,27 +196,11 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
       {TopRightInnerCorner(props.grid, props.y, props.x, gridSize * 1.1)}
       {BottomLeftInnerCorner(props.grid, props.y, props.x, gridSize * 1.1)}
       {BottomRightInnerCorner(props.grid, props.y, props.x, gridSize * 1.1)}
+      {BottomDoubleWall(props.grid, props.y, props.x, gridSize * 1.1)}
+      {TopDoubleWall(props.grid, props.y, props.x, gridSize * 1.1)}
+      {LeftDoubleWall(props.grid, props.y, props.x, gridSize * 1.1)}
+      {RightDoubleWall(props.grid, props.y, props.x, gridSize * 1.1)}
 
-      {bottomDoubleWall ? (
-        <Icon name="doubleWall" size={gridSize * 1.1} direction="bottom" />
-      ) : (
-        <></>
-      )}
-      {topDoubleWall ? (
-        <Icon name="doubleWall" size={gridSize * 1.1} direction="top" />
-      ) : (
-        <></>
-      )}
-      {leftDoubleWall ? (
-        <Icon name="doubleWall" size={gridSize * 1.1} direction="left" />
-      ) : (
-        <></>
-      )}
-      {rightDoubleWall ? (
-        <Icon name="doubleWall" size={gridSize * 1.1} direction="right" />
-      ) : (
-        <></>
-      )}
       {innerDoubleCornerTopLeft ? (
         <Icon
           name="doubleInnerCorner"
