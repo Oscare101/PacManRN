@@ -6,9 +6,17 @@ import GridMaker from '../components/mazeMakers/GridMaker';
 const width = Dimensions.get('screen').width;
 
 export default function MapScreen() {
+  const [grid, setGrid] = useState<number[][]>(PacMan);
+
   return (
-    <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-      <GridMaker grid={PacMan} />
+    <View
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        backgroundColor: '#000',
+      }}>
+      <GridMaker grid={grid} />
     </View>
   );
 }

@@ -1,6 +1,12 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, StyleSheet, View} from 'react-native';
 import React from 'react';
 import Icon from '../icons/Icon';
+import {
+  BottomLeftOuterCorner,
+  BottomRightOuterCorner,
+  TopLeftOuterCorner,
+  TopRightOuterCorner,
+} from '../../functions/MazeOuterCornerFunctions';
 
 const width = Dimensions.get('screen').width;
 
@@ -8,54 +14,6 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
   const gridSize = width / props.grid[0].length;
 
   // OUTER CORNERS
-
-  const topRight =
-    (props.grid[props.y][props.x] === 7 ||
-      props.grid[props.y][props.x] === 8) &&
-    props.y > 0 &&
-    props.x < props.grid[0].length - 1 &&
-    (props.grid[props.y - 1][props.x] === 1 ||
-      props.grid[props.y - 1][props.x] === 0) &&
-    (props.grid[props.y - 1][props.x + 1] === 1 ||
-      props.grid[props.y - 1][props.x + 1] === 0) &&
-    (props.grid[props.y][props.x + 1] === 1 ||
-      props.grid[props.y][props.x + 1] === 0);
-
-  const topLeft =
-    (props.grid[props.y][props.x] === 7 ||
-      props.grid[props.y][props.x] === 8) &&
-    props.y > 0 &&
-    props.x > 0 &&
-    (props.grid[props.y - 1][props.x] === 1 ||
-      props.grid[props.y - 1][props.x] === 0) &&
-    (props.grid[props.y - 1][props.x - 1] === 1 ||
-      props.grid[props.y - 1][props.x - 1] === 0) &&
-    (props.grid[props.y][props.x - 1] === 1 ||
-      props.grid[props.y][props.x - 1] === 0);
-
-  const bottomRight =
-    (props.grid[props.y][props.x] === 7 ||
-      props.grid[props.y][props.x] === 8) &&
-    props.y < props.grid.length - 1 &&
-    props.x < props.grid[0].length - 1 &&
-    (props.grid[props.y + 1][props.x] === 1 ||
-      props.grid[props.y + 1][props.x] === 0) &&
-    (props.grid[props.y + 1][props.x + 1] === 1 ||
-      props.grid[props.y + 1][props.x + 1] === 0) &&
-    (props.grid[props.y][props.x + 1] === 1 ||
-      props.grid[props.y][props.x + 1] === 0);
-
-  const bottomLeft =
-    (props.grid[props.y][props.x] === 7 ||
-      props.grid[props.y][props.x] === 8) &&
-    props.y < props.grid.length - 1 &&
-    props.x > 0 &&
-    (props.grid[props.y + 1][props.x] === 1 ||
-      props.grid[props.y + 1][props.x] === 0) &&
-    (props.grid[props.y + 1][props.x - 1] === 1 ||
-      props.grid[props.y + 1][props.x - 1] === 0) &&
-    (props.grid[props.y][props.x - 1] === 1 ||
-      props.grid[props.y][props.x - 1] === 0);
 
   // WALLS
 
@@ -323,6 +281,12 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
     (props.grid[props.y + 1][props.x + 1] === 1 ||
       props.grid[props.y + 1][props.x + 1] === 0);
 
+  function RenderIcon(grid: number[][], y: number, x: number) {
+    return (
+      <Icon name="outerCorner" size={gridSize * 1.1} direction="topRight" />
+    );
+  }
+
   return (
     <View
       style={{
@@ -332,30 +296,10 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      {topRight ? (
-        <Icon name="outerCorner" size={gridSize * 1.1} direction="topRight" />
-      ) : (
-        <></>
-      )}
-      {topLeft ? (
-        <Icon name="outerCorner" size={gridSize * 1.1} direction="topLeft" />
-      ) : (
-        <></>
-      )}
-      {bottomRight ? (
-        <Icon
-          name="outerCorner"
-          size={gridSize * 1.1}
-          direction="bottomRight"
-        />
-      ) : (
-        <></>
-      )}
-      {bottomLeft ? (
-        <Icon name="outerCorner" size={gridSize * 1.1} direction="bottomLeft" />
-      ) : (
-        <></>
-      )}
+      {TopRightOuterCorner(props.grid, props.y, props.x, gridSize * 1.1)}
+      {TopLeftOuterCorner(props.grid, props.y, props.x, gridSize * 1.1)}
+      {BottomRightOuterCorner(props.grid, props.y, props.x, gridSize * 1.1)}
+      {BottomLeftOuterCorner(props.grid, props.y, props.x, gridSize * 1.1)}
       {bottomWall ? (
         <Icon name="wall" size={gridSize * 1.1} direction="bottom" />
       ) : (
