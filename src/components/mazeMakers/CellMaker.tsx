@@ -31,112 +31,21 @@ import {
   TopLeftInnerDoubleCorner,
   TopRightInnerDoubleCorner,
 } from '../../functions/MazeInnerDoubleCornerFunctions';
+import {
+  BottomLeftInnerCornerWallLeft,
+  BottomLeftInnerCornerWallRight,
+  BottomRightInnerCornerWallLeft,
+  BottomRightInnerCornerWallRight,
+  TopLeftInnerCornerWallLeft,
+  TopLeftInnerCornerWallRight,
+  TopRightInnerCornerWallLeft,
+  TopRightInnerCornerWallRight,
+} from '../../functions/MazeInnerCornerWallFunctions';
 
 const width = Dimensions.get('screen').width;
 
 export default function CellMaker(props: {grid: any; y: number; x: number}) {
   const gridSize = width / props.grid[0].length;
-  // INNER CORNERS WITH WALL
-
-  const innerCornerWallLeftTopRight =
-    props.grid[props.y][props.x] === 8 &&
-    props.y < props.grid.length - 1 &&
-    props.y >= 0 &&
-    props.x >= 0 &&
-    props.x < props.grid[0].length - 1 &&
-    props.grid[props.y][props.x - 1] === 8 &&
-    props.grid[props.y][props.x + 1] === 8 &&
-    props.grid[props.y + 1][props.x] === 7 &&
-    (props.grid[props.y + 1][props.x - 1] === 1 ||
-      props.grid[props.y + 1][props.x - 1] === 0);
-
-  const innerCornerWallRightTopLeft =
-    props.grid[props.y][props.x] === 8 &&
-    props.y < props.grid.length - 1 &&
-    props.y >= 0 &&
-    props.x >= 0 &&
-    props.x < props.grid[0].length - 1 &&
-    props.grid[props.y][props.x - 1] === 8 &&
-    props.grid[props.y][props.x + 1] === 8 &&
-    props.grid[props.y + 1][props.x] === 7 &&
-    (props.grid[props.y + 1][props.x + 1] === 1 ||
-      props.grid[props.y + 1][props.x + 1] === 0);
-
-  const innerCornerWallRightBottomRight =
-    props.grid[props.y][props.x] === 8 &&
-    props.y <= props.grid.length - 1 &&
-    props.y > 0 &&
-    props.x > 0 &&
-    props.x < props.grid[0].length - 1 &&
-    props.grid[props.y][props.x - 1] === 8 &&
-    props.grid[props.y][props.x + 1] === 8 &&
-    props.grid[props.y - 1][props.x] === 7 &&
-    (props.grid[props.y - 1][props.x - 1] === 1 ||
-      props.grid[props.y - 1][props.x - 1] === 0);
-
-  const innerCornerWallLeftBottomLeft =
-    props.grid[props.y][props.x] === 8 &&
-    props.y <= props.grid.length - 1 &&
-    props.y > 0 &&
-    props.x > 0 &&
-    props.x < props.grid[0].length - 1 &&
-    props.grid[props.y][props.x - 1] === 8 &&
-    props.grid[props.y][props.x + 1] === 8 &&
-    props.grid[props.y - 1][props.x] === 7 &&
-    (props.grid[props.y - 1][props.x + 1] === 1 ||
-      props.grid[props.y - 1][props.x + 1] === 0);
-
-  const innerCornerWallRightBottomLeft =
-    props.grid[props.y][props.x] === 8 &&
-    props.y < props.grid.length - 1 &&
-    props.y > 0 &&
-    props.x >= 0 &&
-    props.x < props.grid[0].length - 1 &&
-    props.grid[props.y - 1][props.x] === 8 &&
-    props.grid[props.y + 1][props.x] === 8 &&
-    props.grid[props.y][props.x + 1] === 7 &&
-    (props.grid[props.y - 1][props.x + 1] === 1 ||
-      props.grid[props.y - 1][props.x + 1] === 0);
-
-  const innerCornerWallRightTopRigth =
-    props.grid[props.y][props.x] === 8 &&
-    props.y < props.grid.length - 1 &&
-    props.y > 0 &&
-    props.x > 0 &&
-    props.x <= props.grid[0].length - 1 &&
-    props.grid[props.y - 1][props.x] === 8 &&
-    props.grid[props.y + 1][props.x] === 8 &&
-    props.grid[props.y][props.x - 1] === 7 &&
-    (props.grid[props.y + 1][props.x - 1] === 1 ||
-      props.grid[props.y + 1][props.x - 1] === 0);
-
-  const innerCornerWallLeftBottomRight =
-    props.grid[props.y][props.x] === 8 &&
-    props.y < props.grid.length - 1 &&
-    props.y > 0 &&
-    props.x > 0 &&
-    props.x <= props.grid[0].length - 1 &&
-    props.grid[props.y - 1][props.x] === 8 &&
-    props.grid[props.y + 1][props.x] === 8 &&
-    props.grid[props.y][props.x - 1] === 7 &&
-    (props.grid[props.y - 1][props.x - 1] === 1 ||
-      props.grid[props.y - 1][props.x - 1] === 0);
-
-  const innerCornerWallLeftTopLeft =
-    props.grid[props.y][props.x] === 8 &&
-    props.y < props.grid.length - 1 &&
-    props.y > 0 &&
-    props.x >= 0 &&
-    props.x < props.grid[0].length - 1 &&
-    props.grid[props.y - 1][props.x] === 8 &&
-    props.grid[props.y + 1][props.x] === 8 &&
-    props.grid[props.y][props.x + 1] === 7 &&
-    (props.grid[props.y + 1][props.x + 1] === 1 ||
-      props.grid[props.y + 1][props.x + 1] === 0);
-
-  function RenderIcon(grid: number[][], y: number, x: number) {
-    return <Icon name="outerCorner" size={gridSize} direction="topRight" />;
-  }
 
   return (
     <View
@@ -167,67 +76,14 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
       {TopLeftInnerDoubleCorner(props.grid, props.y, props.x, gridSize)}
       {BottomRightInnerDoubleCorner(props.grid, props.y, props.x, gridSize)}
       {BottomLeftInnerDoubleCorner(props.grid, props.y, props.x, gridSize)}
-
-      {innerCornerWallLeftTopRight ? (
-        <Icon name="innerCornerWallLeft" size={gridSize} direction="topRight" />
-      ) : (
-        <></>
-      )}
-      {innerCornerWallRightTopLeft ? (
-        <Icon name="innerCornerWallRight" size={gridSize} direction="topLeft" />
-      ) : (
-        <></>
-      )}
-      {innerCornerWallRightBottomRight ? (
-        <Icon
-          name="innerCornerWallRight"
-          size={gridSize}
-          direction="bottomRight"
-        />
-      ) : (
-        <></>
-      )}
-      {innerCornerWallLeftBottomLeft ? (
-        <Icon
-          name="innerCornerWallLeft"
-          size={gridSize}
-          direction="bottomLeft"
-        />
-      ) : (
-        <></>
-      )}
-      {innerCornerWallRightBottomLeft ? (
-        <Icon
-          name="innerCornerWallRight"
-          size={gridSize}
-          direction="bottomLeft"
-        />
-      ) : (
-        <></>
-      )}
-      {innerCornerWallRightTopRigth ? (
-        <Icon
-          name="innerCornerWallRight"
-          size={gridSize}
-          direction="topRight"
-        />
-      ) : (
-        <></>
-      )}
-      {innerCornerWallLeftBottomRight ? (
-        <Icon
-          name="innerCornerWallLeft"
-          size={gridSize}
-          direction="bottomRight"
-        />
-      ) : (
-        <></>
-      )}
-      {innerCornerWallLeftTopLeft ? (
-        <Icon name="innerCornerWallLeft" size={gridSize} direction="topLeft" />
-      ) : (
-        <></>
-      )}
+      {TopRightInnerCornerWallLeft(props.grid, props.y, props.x, gridSize)}
+      {BottomLeftInnerCornerWallLeft(props.grid, props.y, props.x, gridSize)}
+      {BottomRightInnerCornerWallLeft(props.grid, props.y, props.x, gridSize)}
+      {TopLeftInnerCornerWallLeft(props.grid, props.y, props.x, gridSize)}
+      {TopRightInnerCornerWallRight(props.grid, props.y, props.x, gridSize)}
+      {TopLeftInnerCornerWallRight(props.grid, props.y, props.x, gridSize)}
+      {BottomLeftInnerCornerWallRight(props.grid, props.y, props.x, gridSize)}
+      {BottomRightInnerCornerWallRight(props.grid, props.y, props.x, gridSize)}
 
       {props.grid[props.y][props.x] === 1 ? (
         <View
