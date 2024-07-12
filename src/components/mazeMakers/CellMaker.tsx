@@ -25,52 +25,17 @@ import {
   RightDoubleWall,
   TopDoubleWall,
 } from '../../functions/MazeDoubleWallFuncrioins';
+import {
+  BottomLeftInnerDoubleCorner,
+  BottomRightInnerDoubleCorner,
+  TopLeftInnerDoubleCorner,
+  TopRightInnerDoubleCorner,
+} from '../../functions/MazeInnerDoubleCornerFunctions';
 
 const width = Dimensions.get('screen').width;
 
 export default function CellMaker(props: {grid: any; y: number; x: number}) {
   const gridSize = width / props.grid[0].length;
-
-  // DOUBLE WALL
-
-  // DOUBLE INNER CORNER
-
-  const innerDoubleCornerTopLeft =
-    props.grid[props.y][props.x] === 8 &&
-    props.y < props.grid.length - 1 &&
-    props.x < props.grid[0].length - 1 &&
-    props.grid[props.y + 1][props.x] === 8 &&
-    props.grid[props.y][props.x + 1] === 8 &&
-    (props.grid[props.y + 1][props.x + 1] === 1 ||
-      props.grid[props.y + 1][props.x + 1] === 0);
-
-  const innerDoubleCornerTopRight =
-    props.grid[props.y][props.x] === 8 &&
-    props.y < props.grid.length - 1 &&
-    props.x > 0 &&
-    props.grid[props.y + 1][props.x] === 8 &&
-    props.grid[props.y][props.x - 1] === 8 &&
-    (props.grid[props.y + 1][props.x - 1] === 1 ||
-      props.grid[props.y + 1][props.x - 1] === 0);
-
-  const innerDoubleCornerBottomRight =
-    props.grid[props.y][props.x] === 8 &&
-    props.y > 0 &&
-    props.x > 0 &&
-    props.grid[props.y - 1][props.x] === 8 &&
-    props.grid[props.y][props.x - 1] === 8 &&
-    (props.grid[props.y - 1][props.x - 1] === 1 ||
-      props.grid[props.y - 1][props.x - 1] === 0);
-
-  const innerDoubleCornerBottomLeft =
-    props.grid[props.y][props.x] === 8 &&
-    props.y > 0 &&
-    props.x < props.grid[0].length - 1 &&
-    props.grid[props.y - 1][props.x] === 8 &&
-    props.grid[props.y][props.x + 1] === 8 &&
-    (props.grid[props.y - 1][props.x + 1] === 1 ||
-      props.grid[props.y - 1][props.x + 1] === 0);
-
   // INNER CORNERS WITH WALL
 
   const innerCornerWallLeftTopRight =
@@ -170,9 +135,7 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
       props.grid[props.y + 1][props.x + 1] === 0);
 
   function RenderIcon(grid: number[][], y: number, x: number) {
-    return (
-      <Icon name="outerCorner" size={gridSize * 1.1} direction="topRight" />
-    );
+    return <Icon name="outerCorner" size={gridSize} direction="topRight" />;
   }
 
   return (
@@ -184,81 +147,41 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      {TopRightOuterCorner(props.grid, props.y, props.x, gridSize * 1.1)}
-      {TopLeftOuterCorner(props.grid, props.y, props.x, gridSize * 1.1)}
-      {BottomRightOuterCorner(props.grid, props.y, props.x, gridSize * 1.1)}
-      {BottomLeftOuterCorner(props.grid, props.y, props.x, gridSize * 1.1)}
-      {BottomWall(props.grid, props.y, props.x, gridSize * 1.1)}
-      {TopWall(props.grid, props.y, props.x, gridSize * 1.1)}
-      {LeftWall(props.grid, props.y, props.x, gridSize * 1.1)}
-      {RightWall(props.grid, props.y, props.x, gridSize * 1.1)}
-      {TopLeftInnerCorner(props.grid, props.y, props.x, gridSize * 1.1)}
-      {TopRightInnerCorner(props.grid, props.y, props.x, gridSize * 1.1)}
-      {BottomLeftInnerCorner(props.grid, props.y, props.x, gridSize * 1.1)}
-      {BottomRightInnerCorner(props.grid, props.y, props.x, gridSize * 1.1)}
-      {BottomDoubleWall(props.grid, props.y, props.x, gridSize * 1.1)}
-      {TopDoubleWall(props.grid, props.y, props.x, gridSize * 1.1)}
-      {LeftDoubleWall(props.grid, props.y, props.x, gridSize * 1.1)}
-      {RightDoubleWall(props.grid, props.y, props.x, gridSize * 1.1)}
+      {TopRightOuterCorner(props.grid, props.y, props.x, gridSize)}
+      {TopLeftOuterCorner(props.grid, props.y, props.x, gridSize)}
+      {BottomRightOuterCorner(props.grid, props.y, props.x, gridSize)}
+      {BottomLeftOuterCorner(props.grid, props.y, props.x, gridSize)}
+      {BottomWall(props.grid, props.y, props.x, gridSize)}
+      {TopWall(props.grid, props.y, props.x, gridSize)}
+      {LeftWall(props.grid, props.y, props.x, gridSize)}
+      {RightWall(props.grid, props.y, props.x, gridSize)}
+      {TopLeftInnerCorner(props.grid, props.y, props.x, gridSize)}
+      {TopRightInnerCorner(props.grid, props.y, props.x, gridSize)}
+      {BottomLeftInnerCorner(props.grid, props.y, props.x, gridSize)}
+      {BottomRightInnerCorner(props.grid, props.y, props.x, gridSize)}
+      {BottomDoubleWall(props.grid, props.y, props.x, gridSize)}
+      {TopDoubleWall(props.grid, props.y, props.x, gridSize)}
+      {LeftDoubleWall(props.grid, props.y, props.x, gridSize)}
+      {RightDoubleWall(props.grid, props.y, props.x, gridSize)}
+      {TopRightInnerDoubleCorner(props.grid, props.y, props.x, gridSize)}
+      {TopLeftInnerDoubleCorner(props.grid, props.y, props.x, gridSize)}
+      {BottomRightInnerDoubleCorner(props.grid, props.y, props.x, gridSize)}
+      {BottomLeftInnerDoubleCorner(props.grid, props.y, props.x, gridSize)}
 
-      {innerDoubleCornerTopLeft ? (
-        <Icon
-          name="doubleInnerCorner"
-          size={gridSize * 1.1}
-          direction="topLeft"
-        />
-      ) : (
-        <></>
-      )}
-      {innerDoubleCornerTopRight ? (
-        <Icon
-          name="doubleInnerCorner"
-          size={gridSize * 1.1}
-          direction="topRight"
-        />
-      ) : (
-        <></>
-      )}
-      {innerDoubleCornerBottomRight ? (
-        <Icon
-          name="doubleInnerCorner"
-          size={gridSize * 1.1}
-          direction="bottomRight"
-        />
-      ) : (
-        <></>
-      )}
-      {innerDoubleCornerBottomLeft ? (
-        <Icon
-          name="doubleInnerCorner"
-          size={gridSize * 1.1}
-          direction="bottomLeft"
-        />
-      ) : (
-        <></>
-      )}
       {innerCornerWallLeftTopRight ? (
-        <Icon
-          name="innerCornerWallLeft"
-          size={gridSize * 1.1}
-          direction="topRight"
-        />
+        <Icon name="innerCornerWallLeft" size={gridSize} direction="topRight" />
       ) : (
         <></>
       )}
       {innerCornerWallRightTopLeft ? (
-        <Icon
-          name="innerCornerWallRight"
-          size={gridSize * 1.1}
-          direction="topLeft"
-        />
+        <Icon name="innerCornerWallRight" size={gridSize} direction="topLeft" />
       ) : (
         <></>
       )}
       {innerCornerWallRightBottomRight ? (
         <Icon
           name="innerCornerWallRight"
-          size={gridSize * 1.1}
+          size={gridSize}
           direction="bottomRight"
         />
       ) : (
@@ -267,7 +190,7 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
       {innerCornerWallLeftBottomLeft ? (
         <Icon
           name="innerCornerWallLeft"
-          size={gridSize * 1.1}
+          size={gridSize}
           direction="bottomLeft"
         />
       ) : (
@@ -276,7 +199,7 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
       {innerCornerWallRightBottomLeft ? (
         <Icon
           name="innerCornerWallRight"
-          size={gridSize * 1.1}
+          size={gridSize}
           direction="bottomLeft"
         />
       ) : (
@@ -285,7 +208,7 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
       {innerCornerWallRightTopRigth ? (
         <Icon
           name="innerCornerWallRight"
-          size={gridSize * 1.1}
+          size={gridSize}
           direction="topRight"
         />
       ) : (
@@ -294,18 +217,14 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
       {innerCornerWallLeftBottomRight ? (
         <Icon
           name="innerCornerWallLeft"
-          size={gridSize * 1.1}
+          size={gridSize}
           direction="bottomRight"
         />
       ) : (
         <></>
       )}
       {innerCornerWallLeftTopLeft ? (
-        <Icon
-          name="innerCornerWallLeft"
-          size={gridSize * 1.1}
-          direction="topLeft"
-        />
+        <Icon name="innerCornerWallLeft" size={gridSize} direction="topLeft" />
       ) : (
         <></>
       )}
