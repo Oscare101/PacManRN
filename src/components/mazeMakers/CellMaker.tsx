@@ -40,6 +40,11 @@ import {
   TopRightInnerCornerWallLeft,
   TopRightInnerCornerWallRight,
 } from '../../functions/MazeInnerCornerWallFunctions';
+import {Door} from '../../functions/MazeDoorFunctions';
+import {
+  ClosedWallLeft,
+  ClosedWallRight,
+} from '../../functions/MazeClosedWallFunctions';
 
 const width = Dimensions.get('screen').width;
 
@@ -83,6 +88,9 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
       {TopLeftInnerCornerWallRight(props.grid, props.y, props.x, gridSize)}
       {BottomLeftInnerCornerWallRight(props.grid, props.y, props.x, gridSize)}
       {BottomRightInnerCornerWallRight(props.grid, props.y, props.x, gridSize)}
+      {Door(props.grid, props.y, props.x, gridSize)}
+      {ClosedWallRight(props.grid, props.y, props.x, gridSize)}
+      {ClosedWallLeft(props.grid, props.y, props.x, gridSize)}
 
       {props.grid[props.y][props.x] === 1 ? (
         <View
