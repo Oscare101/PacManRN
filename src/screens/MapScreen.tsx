@@ -10,14 +10,16 @@ import PacMan from '../mazes/Pac-Man';
 import GridMaker from '../components/mazeMakers/GridMaker';
 
 const width: number = Dimensions.get('screen').width;
-const gameSpeed: number = 100; // швидкість оновлення гри (в мілісекундах)
+const gameSpeed: number = 500; // швидкість оновлення гри (в мілісекундах)
 const step: number = 1;
 
 export default function MapScreen() {
   const gridSize = width / PacMan[0].length;
 
   const [grid, setGrid] = useState<number[][]>(PacMan);
-  const [position, setPosition] = useState({x: 13, y: 23});
+  // const [position, setPosition] = useState({ x: 13, y: 23 });
+  const [position, setPosition] = useState({x: 23, y: 14});
+
   const [direction, setDirection] = useState<
     'up' | 'down' | 'left' | 'right' | null
   >(null);
@@ -37,17 +39,13 @@ export default function MapScreen() {
           setPosition(prevPosition => {
             let newPosition = {...prevPosition};
 
-            if (newPosition.x < 0) {
-              newPosition.x = grid[0].length;
-            } else if (newPosition.x > grid[0].length - 1) {
-              newPosition.x = 0;
-            }
             if (nextDirection) {
-              // Спроба повороту в nextDirection
-              let newNextPosition = getNextPosition(
-                prevPosition,
-                nextDirection,
-              );
+              let newNextPosition = getNextPosition(newPosition, nextDirection);
+              if (newNextPosition.x < 0) {
+                newNextPosition.x = grid[0].length - 1;
+              } else if (newNextPosition.x > grid[0].length - 1) {
+                newNextPosition.x = 0;
+              }
               if (!checkCollision(newNextPosition)) {
                 setDirection(nextDirection);
                 setNextDirection(null);
@@ -57,6 +55,11 @@ export default function MapScreen() {
 
             // Переміщення в поточному напрямку
             newPosition = getNextPosition(newPosition, direction);
+            if (newPosition.x < 0) {
+              newPosition.x = grid[0].length - 1;
+            } else if (newPosition.x > grid[0].length - 1) {
+              newPosition.x = 0;
+            }
             if (checkCollision(newPosition)) {
               return prevPosition;
             }
@@ -108,14 +111,16 @@ export default function MapScreen() {
     // console.log(newPosition);
 
     return (
-      grid[newPosition.y][newPosition.x] === 7 ||
-      grid[newPosition.y][newPosition.x] === 8
+      grid[newPosition.y][newPosition.x] &&
+      grid[newPosition.y][newPosition.x] !== 0 &&
+      grid[newPosition.y][newPosition.x] !== 1
     );
   };
 
   const handleDirectionChange = (
     newDirection: 'up' | 'down' | 'left' | 'right',
   ) => {
+    if (newDirection === direction) return false;
     if (direction) {
       setNextDirection(newDirection);
     } else {
@@ -145,6 +150,7 @@ export default function MapScreen() {
       </View>
       <Text>{direction}</Text>
       <Text>{nextDirection}</Text>
+      <Text>{position.x}</Text>
 
       <View style={styles.container}>
         <View style={styles.controls}>
