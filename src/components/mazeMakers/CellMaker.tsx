@@ -45,6 +45,12 @@ import {
   ClosedWallLeft,
   ClosedWallRight,
 } from '../../functions/MazeClosedWallFunctions';
+import {
+  BottomLeftSharpDoubleOuterCorner,
+  BottomRightSharpDoubleOuterCorner,
+  TopLeftSharpDoubleOuterCorner,
+  TopRightSharpDoubleOuterCorner,
+} from '../../functions/MazeSharpDoubleCornerFunctions';
 
 const width = Dimensions.get('screen').width;
 
@@ -91,6 +97,15 @@ export default function CellMaker(props: {grid: any; y: number; x: number}) {
       {Door(props.grid, props.y, props.x, gridSize)}
       {ClosedWallRight(props.grid, props.y, props.x, gridSize)}
       {ClosedWallLeft(props.grid, props.y, props.x, gridSize)}
+      {TopRightSharpDoubleOuterCorner(props.grid, props.y, props.x, gridSize)}
+      {TopLeftSharpDoubleOuterCorner(props.grid, props.y, props.x, gridSize)}
+      {BottomRightSharpDoubleOuterCorner(
+        props.grid,
+        props.y,
+        props.x,
+        gridSize,
+      )}
+      {BottomLeftSharpDoubleOuterCorner(props.grid, props.y, props.x, gridSize)}
 
       {props.grid[props.y][props.x] === 1 ? (
         <View

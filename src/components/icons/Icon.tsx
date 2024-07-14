@@ -11,6 +11,7 @@ import {WallIconName} from '../../constants/interfaces';
 import ClosedWallLeftIcon from './ClosedWallLeftIcon';
 import ClosedWallRightIcon from './ClosedWallRightIcon';
 import DoorIcon from './DoorIcon';
+import SharpDoubleCornerIcon from './SharpDoubleCornerIcon';
 
 const directionDegree = {
   topLeft: 0,
@@ -130,6 +131,16 @@ export default function Icon(props: {
     door: (
       <SvgXml
         xml={DoorIcon()}
+        width={props.size}
+        height={props.size}
+        style={{
+          transform: [{rotate: `${directionDegree[props.direction]}deg`}],
+        }}
+      />
+    ),
+    sharpDoubleOuterCorner: (
+      <SvgXml
+        xml={SharpDoubleCornerIcon()}
         width={props.size}
         height={props.size}
         style={{

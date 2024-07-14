@@ -9,5 +9,6 @@ export interface WallIconName {
     | 'innerCornerWallRight'
     | 'closedWallLeft'
     | 'closedWallRight'
-    | 'door';
+    | 'door'
+    | 'sharpDoubleOuterCorner';
 }
